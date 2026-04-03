@@ -6,12 +6,12 @@ This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
 
 * Node.js
 * Express.js
-* MongoDB (coming soon)
+* MongoDB (Connected ✅)
 * OpenAI API (for AI tutor)
 
 ## 📁 Features
 
-* User authentication (coming soon)
+* User authentication (Completed ✅)
 * Course management (coming soon)
 * AI Tutor for answering questions 🤖
 * Progress tracking (coming soon)
