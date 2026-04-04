@@ -11,10 +11,21 @@ This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
 
 ## 📁 Features
 
-* User authentication (Completed ✅)
-* Course management (coming soon)
-* AI Tutor for answering questions 🤖
-* Progress tracking (coming soon)
+## 🚀 Features
+
+- User authentication (Completed ✅)
+- Course management (Completed ✅)
+- Enrollment system (Completed ✅)
+- AI Tutor (Coming soon 🤖)
+- Progress tracking (Coming soon 📊)
+
+## 📁 Project Structure
+
+backend/
+ ├── config/
+ ├── models/
+ ├── routes/
+ ├── server.js
 
 ## 🚀 How to run
 
