@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Course = require("../models/Course");
 const mongoose = require("mongoose");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 // CREATE COURSE
-router.post("/create", async (req, res) => {
+router.post("/create", auth, admin, async (req, res) => {
   const { title, description, instructor } = req.body;
 
   const course = await Course.create({
