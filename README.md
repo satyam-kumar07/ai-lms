@@ -20,6 +20,7 @@ This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
 - Enrollment system (Completed ✅)
 - Progress tracking (Completed ✅)
 - Role-based access control (Completed ✅)
+- Course modules & lessons (Completed ✅)
 - AI Tutor (Coming soon 🤖)
 
 ## 📁 Project Structure

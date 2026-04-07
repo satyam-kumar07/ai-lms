@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 
-// CREATE COURSE
+// ================= CREATE COURSE (ADMIN ONLY) =================
 router.post("/create", auth, admin, async (req, res) => {
   const { title, description, instructor } = req.body;
 
@@ -18,13 +18,56 @@ router.post("/create", auth, admin, async (req, res) => {
   res.json(course);
 });
 
-// GET ALL COURSES
+// ================= ADD MODULE (ADMIN ONLY) =================
+router.post("/add-module/:courseId", auth, admin, async (req, res) => {
+  const { title } = req.body;
+
+  const course = await Course.findById(req.params.courseId);
+
+  if (!course) {
+    return res.status(404).json({ error: "Course not found" });
+  }
+
+  course.modules.push({ title, lessons: [] });
+
+  await course.save();
+
+  res.json(course);
+});
+
+// ================= ADD LESSON (ADMIN ONLY) =================
+router.post("/add-lesson/:courseId/:moduleIndex", auth, admin, async (req, res) => {
+  const { title, content } = req.body;
+
+  const course = await Course.findById(req.params.courseId);
+
+  if (!course) {
+    return res.status(404).json({ error: "Course not found" });
+  }
+
+  const module = course.modules[req.params.moduleIndex];
+
+  if (!module) {
+    return res.status(404).json({ error: "Module not found" });
+  }
+
+  module.lessons.push({
+    title,
+    content,
+  });
+
+  await course.save();
+
+  res.json(course);
+});
+
+// ================= GET ALL COURSES =================
 router.get("/", async (req, res) => {
   const courses = await Course.find().populate("students", "-password");
   res.json(courses);
 });
 
-// ENROLL IN COURSE (UPDATED)
+// ================= ENROLL IN COURSE =================
 router.post("/enroll/:courseId/:userId", async (req, res) => {
   const { courseId, userId } = req.params;
 
@@ -56,5 +99,5 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
   }
 });
 
-// ✅ KEEP THIS LINE
+// ================= EXPORT =================
 module.exports = router;
