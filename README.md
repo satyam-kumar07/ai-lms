@@ -13,8 +13,6 @@ This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
 
 ## 🚀 Features
 
-🚀 Features
-
 - User authentication (Completed ✅)
 - Course management (Completed ✅)
 - Enrollment system (Completed ✅)
@@ -45,4 +43,6 @@ http://localhost:5000
 
 ## 📌 Status
 
-🚧 Project in development
+🚧 Backend Completed  
+🎨 Frontend (Coming soon)  
+🤖 AI Tutor (In progress)
