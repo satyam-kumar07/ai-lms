@@ -4,19 +4,39 @@ const Course = require("../models/Course");
 const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const { body, validationResult } = require("express-validator");
 
 // ================= CREATE COURSE (ADMIN ONLY) =================
-router.post("/create", auth, admin, async (req, res) => {
-  const { title, description, instructor } = req.body;
+router.post(
+  "/create",
+  auth,
+  admin,
 
-  const course = await Course.create({
-    title,
-    description,
-    instructor,
-  });
+  // ✅ VALIDATION RULES
+  [
+    body("title").notEmpty().withMessage("Title required"),
+    body("description").notEmpty().withMessage("Description required"),
+  ],
 
-  res.json(course);
-});
+  async (req, res) => {
+
+    // ✅ CHECK ERRORS
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, description, instructor } = req.body;
+
+    const course = await Course.create({
+      title,
+      description,
+      instructor,
+    });
+
+    res.json(course);
+  }
+);
 
 // ================= ADD MODULE (ADMIN ONLY) =================
 router.post("/add-module/:courseId", auth, admin, async (req, res) => {
@@ -63,8 +83,12 @@ router.post("/add-lesson/:courseId/:moduleIndex", auth, admin, async (req, res) 
 
 // ================= GET ALL COURSES =================
 router.get("/", async (req, res) => {
-  const courses = await Course.find().populate("students", "-password");
-  res.json(courses);
+  try {
+const courses = await Course.find().populate("students", "-password");
+    res.json(courses);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch courses" });
+  }
 });
 
 // ================= ENROLL IN COURSE =================

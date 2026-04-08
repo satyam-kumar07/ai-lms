@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const courseRoutes = require("./routes/course");
 const progressRoutes = require("./routes/progress");
+const errorHandler = require("./middleware/errorHandler");
 
 dotenv.config();
 connectDB();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/progress", progressRoutes);
+app.use(errorHandler);
 
 // TEST ROUTE
 app.get("/", (req, res) => {

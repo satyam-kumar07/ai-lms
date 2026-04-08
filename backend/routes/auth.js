@@ -3,27 +3,47 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
 
 
 // ================= REGISTER =================
-router.post("/register", async (req, res) => {
-  const { name, email, password, role } = req.body;
+router.post(
+  "/register",
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+  [
+    body("name").notEmpty().withMessage("Name required"),
+    body("email").isEmail().withMessage("Valid email required"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Min 6 chars password"),
+  ],
 
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role: role || "student"
-    });
+  async (req, res) => {
+    const errors = validationResult(req);
 
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ error: "User already exists" });
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, password, role } = req.body;
+
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const user = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        role: role || "student",
+      });
+
+      res.json(user);
+
+    } catch (err) {
+      res.status(400).json({ error: "User already exists" });
+    }
   }
-});
+);
 
 
 // ================= LOGIN =================
