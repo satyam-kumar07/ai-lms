@@ -18,24 +18,30 @@ This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
 - Role-based access control (Completed ✅)
 - Course modules & lessons (Completed ✅)
 - Validation & error handling (Completed ✅)
+- Frontend Setup (Completed ✅)
+- Backend API Connected to Frontend (Completed ✅)
 - AI Tutor (Coming soon 🤖)
 
 ## 📁 Project Structure
 
-backend/
- ├── config/
- ├── middleware/
- ├── models/
- ├── routes/
- ├── server.js
+backend/ — config/ middleware/ models/ routes/ server.js  
+frontend/ — src/ components/ pages/ services/
 
 ## 🚀 How to run
 
-```bash
-cd backend
-npm install
-npx nodemon server.js
-```
+### Backend
+
+cd backend  
+npm install  
+npm run dev  
+
+### Frontend
+
+cd frontend  
+npm install  
+npm start  
+
+
 
 Then open:
 http://localhost:5000
@@ -56,3 +62,4 @@ http://localhost:5000
 - Day 5: Role-Based Access Control
 - Day 6: Course Modules & Lessons
 - Day 7: Validation & Error Handling
+- Day 8: React Frontend Setup & API Integration
