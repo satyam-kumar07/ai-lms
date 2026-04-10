@@ -1,6 +1,19 @@
-# AI LMS with AI Tutor 🚀
+Hi, I'm Satyam 👋
+Building AI LMS with AI Tutor 🚀
 
 This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
+
+🧩 Problem
+
+Students lack personalized learning systems
+
+💡 Solution
+
+An AI-powered backend that generates:
+
+Courses
+Quizzes
+Notes
 
 ## 🔧 Tech Stack
 
@@ -20,6 +33,7 @@ This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
 - Validation & error handling (Completed ✅)
 - Frontend Setup (Completed ✅)
 - Backend API Connected to Frontend (Completed ✅)
+- Add login and register UI (Completed ✅)
 - AI Tutor (Coming soon 🤖)
 
 ## 📁 Project Structure
@@ -63,3 +77,4 @@ http://localhost:5000
 - Day 6: Course Modules & Lessons
 - Day 7: Validation & Error Handling
 - Day 8: React Frontend Setup & API Integration
+- Day 9: Add login and register UI with API integration

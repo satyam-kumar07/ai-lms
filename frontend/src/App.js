@@ -1,25 +1,16 @@
-import { useEffect, useState } from "react";
-import API from "./services/api";
-import CourseCard from "./components/CourseCard";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    API.get("/courses")
-      .then(res => setCourses(res.data))
-      .catch(err => console.error(err));
-  }, []);
-
   return (
-    <div>
-      <h1>AI LMS Frontend 🚀</h1>
-
-      {courses.map((course, index) => (
-        <CourseCard key={index} course={course} />
-      ))}
-
-    </div>
+    <Router>
+      <h1>AI LMS 🚀</h1>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
