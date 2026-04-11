@@ -34,6 +34,7 @@ Notes
 - Frontend Setup (Completed ✅)
 - Backend API Connected to Frontend (Completed ✅)
 - Add login and register UI (Completed ✅)
+- Add Dashboard UI and fetch courses (Completed ✅)
 - AI Tutor (Coming soon 🤖)
 
 ## 📁 Project Structure
@@ -66,7 +67,7 @@ http://localhost:5000
 
 - 🚀 Backend Completed (Production-ready ✅)
 - 🛡️ Validation & Error Handling Added (NEW ✅)
-- 🎨 Frontend (Coming soon)
+- 🎨 Frontend (In Progress)
 - 🤖 AI Tutor (In progress)
 
 ## 📈 Development Progress
@@ -78,3 +79,4 @@ http://localhost:5000
 - Day 7: Validation & Error Handling
 - Day 8: React Frontend Setup & API Integration
 - Day 9: Add login and register UI with API integration
+- Day 10: Add dashboard UI and fetch courses with authentication
