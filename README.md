@@ -35,6 +35,7 @@ Notes
 - Backend API Connected to Frontend (Completed ✅)
 - Add login and register UI (Completed ✅)
 - Add Dashboard UI and fetch courses (Completed ✅)
+- Course Enrollment in Dashboard (Completed ✅)
 - AI Tutor (Coming soon 🤖)
 
 ## 📁 Project Structure
@@ -80,3 +81,4 @@ http://localhost:5000
 - Day 8: React Frontend Setup & API Integration
 - Day 9: Add login and register UI with API integration
 - Day 10: Add dashboard UI and fetch courses with authentication
+- Day 11: Add course enrollment functionality in dashboard
