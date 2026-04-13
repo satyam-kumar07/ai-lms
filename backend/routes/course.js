@@ -6,13 +6,13 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { body, validationResult } = require("express-validator");
 
-// ================= CREATE COURSE (ADMIN ONLY) =================
+//  CREATE COURSE (ADMIN ONLY) 
 router.post(
   "/create",
   auth,
   admin,
 
-  // ✅ VALIDATION RULES
+  //  VALIDATION RULES
   [
     body("title").notEmpty().withMessage("Title required"),
     body("description").notEmpty().withMessage("Description required"),
@@ -20,7 +20,7 @@ router.post(
 
   async (req, res) => {
 
-    // ✅ CHECK ERRORS
+    //  CHECK ERRORS
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -38,7 +38,7 @@ router.post(
   }
 );
 
-// ================= ADD MODULE (ADMIN ONLY) =================
+//  ADD MODULE (ADMIN ONLY) 
 router.post("/add-module/:courseId", auth, admin, async (req, res) => {
   const { title } = req.body;
 
@@ -55,7 +55,7 @@ router.post("/add-module/:courseId", auth, admin, async (req, res) => {
   res.json(course);
 });
 
-// ================= ADD LESSON (ADMIN ONLY) =================
+//  ADD LESSON (ADMIN ONLY) 
 router.post("/add-lesson/:courseId/:moduleIndex", auth, admin, async (req, res) => {
   const { title, content } = req.body;
 
@@ -81,7 +81,7 @@ router.post("/add-lesson/:courseId/:moduleIndex", auth, admin, async (req, res) 
   res.json(course);
 });
 
-// ================= GET ALL COURSES =================
+//  GET ALL COURSES 
 router.get("/", async (req, res) => {
   try {
 const courses = await Course.find().populate("students", "-password");
@@ -91,7 +91,7 @@ const courses = await Course.find().populate("students", "-password");
   }
 });
 
-// ================= ENROLL IN COURSE =================
+//  ENROLL IN COURSE 
 router.post("/enroll/:courseId/:userId", async (req, res) => {
   const { courseId, userId } = req.params;
 
@@ -122,6 +122,14 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+// GET USER ENROLLED COURSES
+router.get("/my-courses/:userId", async (req, res) => {
+  const courses = await Course.find({
+    students: req.params.userId
+  });
 
-// ================= EXPORT =================
+  res.json(courses);
+});
+
+// EXPORT 
 module.exports = router;

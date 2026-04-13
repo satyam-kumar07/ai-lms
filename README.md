@@ -82,3 +82,4 @@ http://localhost:5000
 - Day 9: Add login and register UI with API integration
 - Day 10: Add dashboard UI and fetch courses with authentication
 - Day 11: Add course enrollment functionality in dashboard
+- Day 12: Add my course and personalized dashboard
