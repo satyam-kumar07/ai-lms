@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
@@ -7,6 +8,7 @@ function Dashboard() {
 
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     // All courses
@@ -43,7 +45,9 @@ function Dashboard() {
       <h3>📚 All Courses</h3>
       {courses.map((course) => (
         <div key={course._id}>
-          <h4>{course.title}</h4>
+          <h4 onClick={() => navigate(`/course/${course._id}`)}>
+  {course.title}
+</h4>
           <p>{course.description}</p>
 
           <button onClick={() => handleEnroll(course._id)}>
