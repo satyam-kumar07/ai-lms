@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function CourseDetails() {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.get(`/courses`)
@@ -30,7 +32,9 @@ function CourseDetails() {
 
           {module.lessons.map((lesson, j) => (
             <div key={j}>
-              <p>➡️ {lesson.title}</p>
+              <p onClick={() => navigate(`/lesson/${id}/${i}/${j}`)}>
+   {lesson.title}
+</p>
             </div>
           ))}
         </div>

@@ -36,6 +36,9 @@ Notes
 - Add login and register UI (Completed ✅)
 - Add Dashboard UI and fetch courses (Completed ✅)
 - Course Enrollment in Dashboard (Completed ✅)
+- Course details page (modules & lessons) (Completed ✅)
+- Lesson view page (Completed ✅)
+- Progress tracking (basic) (Completed ✅)
 - AI Tutor (Coming soon 🤖)
 
 ## 📁 Project Structure
@@ -84,3 +87,4 @@ http://localhost:5000
 - Day 11: Add course enrollment functionality in dashboard
 - Day 12: Add my course and personalized dashboard
 - Day 13: Add course details page 
+- Day 14: Add lesson page and progress tracking 
