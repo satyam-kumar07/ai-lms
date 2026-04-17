@@ -6,28 +6,31 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-router.post("/study-plan", async (req, res) => {
-  const { subjects, hours } = req.body;
+// AI TEACHER CHAT
+router.post("/ask", async (req, res) => {
+  const { question } = req.body;
 
   try {
-const prompt = `
-Create a daily study plan for:
-Subjects: ${subjects}
-Study hours per day: ${hours}
-Give a structured timetable.
-`;
-
-    const response = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
-      messages: [{ role: "user", content: prompt }],
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful teacher who explains concepts simply.",
+        },
+        {
+          role: "user",
+          content: question,
+        },
+      ],
+      model: "llama-3.1-8b-instant" 
     });
 
     res.json({
-      plan: response.choices[0].message.content,
+      reply: completion.choices[0].message.content,
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("AI ERROR:", err.message);
     res.status(500).json({ error: "AI failed" });
   }
 });

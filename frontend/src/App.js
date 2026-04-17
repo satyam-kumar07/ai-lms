@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import CourseDetails from "./pages/CourseDetails";
 import LessonPage from "./pages/LessonPage";
 import StudyPlanner from "./pages/StudyPlanner";
+import AITeacher from "./pages/AITeacher";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/lesson/:courseId/:moduleIndex/:lessonIndex" element={<LessonPage />} />
         <Route path="/planner" element={<StudyPlanner />} />
+        <Route path="/ai-teacher" element={<AITeacher />} />
       </Routes>
     </Router>
   );

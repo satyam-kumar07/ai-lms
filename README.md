@@ -39,7 +39,7 @@ Notes
 - Course details page (modules & lessons) (Completed ✅)
 - Lesson view page (Completed ✅)
 - Progress tracking (basic) (Completed ✅)
-- AI Tutor (In Progress)
+- AI Study Planner Integrate Groq llama-3.1-8b-instant model for AI teacher(Completed ✅)
 
 ## 📁 Project Structure
 
@@ -89,3 +89,4 @@ http://localhost:5000
 - Day 13: Add course details page 
 - Day 14: Add lesson page and progress tracking 
 - Day 15: Add Ai Study planner using groq
+- Day 16: Add Groq llama-3.1-8b-instant model for AI teacher

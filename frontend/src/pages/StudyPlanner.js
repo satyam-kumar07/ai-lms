@@ -49,7 +49,19 @@ function StudyPlanner() {
   style={{ padding: "10px", marginRight: "10px", width: "20%" }}
 />
 
-      <button onClick={generatePlan} disabled={loading}>
+      <button
+  onClick={generatePlan}
+  disabled={loading}
+  style={{
+    padding: "10px 20px",
+    background: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginTop: "10px",
+  }}
+>
   {loading ? "Generating..." : "Generate Plan"}
 </button>
 
