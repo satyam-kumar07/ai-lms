@@ -1,92 +1,82 @@
-Hi, I'm Satyam 👋
-Building AI LMS with AI Tutor 🚀
+🚀 AI LMS with AI Tutor
 
-This is a full-stack Learning Management System (LMS) with an AI-powered tutor.
+Hi, I'm Satyam 👋
+I built a full-stack Learning Management System (LMS) with an integrated AI-powered tutor.
 
 🧩 Problem
 
-Students lack personalized learning systems
+Students often lack personalized learning systems and instant doubt resolution.
 
 💡 Solution
 
-An AI-powered backend that generates:
+This LMS integrates AI to provide:
 
-Courses
-Quizzes
-Notes
+Smart study plans
+Structured notes generation
+AI-powered tutor for concept explanation
 
-## 🔧 Tech Stack
+🔧 Tech Stack
 
-* Node.js
-* Express.js
-* MongoDB (Connected ✅)
-* OpenAI API (for AI tutor)
+Node.js
+Express.js
+MongoDB
+React.js
+Groq API (LLM integration — llama-3.1-8b-instant)
 
-## 📁 Features
+✨ Key Features
 
-- User authentication (Completed ✅)
-- Course management (Completed ✅)
-- Enrollment system (Completed ✅)
-- Progress tracking (Completed ✅)
-- Role-based access control (Completed ✅)
-- Course modules & lessons (Completed ✅)
-- Validation & error handling (Completed ✅)
-- Frontend Setup (Completed ✅)
-- Backend API Connected to Frontend (Completed ✅)
-- Add login and register UI (Completed ✅)
-- Add Dashboard UI and fetch courses (Completed ✅)
-- Course Enrollment in Dashboard (Completed ✅)
-- Course details page (modules & lessons) (Completed ✅)
-- Lesson view page (Completed ✅)
-- Progress tracking (basic) (Completed ✅)
-- AI Study Planner Integrate Groq llama-3.1-8b-instant model for AI teacher(Completed ✅)
+User authentication & authorization
+Role-based access control (Admin / Student)
+Course management system
+Enrollment & progress tracking
+Modular course structure (modules & lessons)
+Dashboard with personalized courses
 
-## 📁 Project Structure
+🤖 AI Features
 
-backend/ — config/ middleware/ models/ routes/ server.js  
-frontend/ — src/ components/ pages/ services/
+AI Study Planner (daily structured schedules)
+AI Teacher (chat-based concept explanation)
+AI Notes Generator (structured notes with headings & bullets)
 
-## 🚀 How to run
+📁 Project Structure
 
-### Backend
+backend/
+  ├── config/
+  ├── middleware/
+  ├── models/
+  ├── routes/
+  └── server.js
 
-cd backend  
-npm install  
-npm run dev  
+frontend/
+  ├── src/
+  ├── components/
+  ├── pages/
+  └── services/
 
-### Frontend
+🚀 How to Run
 
-cd frontend  
-npm install  
-npm start  
+Backend
+cd backend
+npm install
+npm run dev
 
+Frontend
+cd frontend
+npm install
+npm start
 
+📌 Current Status
 
-Then open:
-http://localhost:5000
+✅ Backend: Production-ready
+✅ Frontend: Core features completed
+🚧 UI/UX improvements in progress
+🤖 AI features integrated and functional
 
-## 📌 Status
+📈 Development Timeline
 
-📌 Status
-
-- 🚀 Backend Completed (Production-ready ✅)
-- 🛡️ Validation & Error Handling Added (NEW ✅)
-- 🎨 Frontend (In Progress)
-- 🤖 AI Tutor (In progress)
-
-## 📈 Development Progress
-
-- Day 1–3: Backend Setup & Auth
-- Day 4: Progress Tracking
-- Day 5: Role-Based Access Control
-- Day 6: Course Modules & Lessons
-- Day 7: Validation & Error Handling
-- Day 8: React Frontend Setup & API Integration
-- Day 9: Add login and register UI with API integration
-- Day 10: Add dashboard UI and fetch courses with authentication
-- Day 11: Add course enrollment functionality in dashboard
-- Day 12: Add my course and personalized dashboard
-- Day 13: Add course details page 
-- Day 14: Add lesson page and progress tracking 
-- Day 15: Add Ai Study planner using groq
-- Day 16: Add Groq llama-3.1-8b-instant model for AI teacher
+Day 1–3: Backend setup & authentication
+Day 4–7: Core LMS features + validation
+Day 8–14: Frontend + course system
+Day 15: AI Study Planner
+Day 16: AI Teacher (chat system)
+Day 17: AI Notes Generator
