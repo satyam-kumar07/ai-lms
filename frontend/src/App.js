@@ -7,6 +7,7 @@ import LessonPage from "./pages/LessonPage";
 import StudyPlanner from "./pages/StudyPlanner";
 import AITeacher from "./pages/AITeacher";
 import NotesGenerator from "./pages/NotesGenerator";
+import QuizGenerator from "./pages/QuizGenerator";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/planner" element={<StudyPlanner />} />
         <Route path="/ai-teacher" element={<AITeacher />} />
         <Route path="/notes" element={<NotesGenerator />} />
+        <Route path="/quiz" element={<QuizGenerator />} />
       </Routes>
     </Router>
   );

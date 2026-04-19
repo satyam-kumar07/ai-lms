@@ -17,7 +17,7 @@ This LMS integrates AI to provide:
 
 * Smart study plans
 * Structured notes generation
-* AI-powered tutor for concept explanation
+* AI-powered tutor + quiz-based learning system
 
 ---
 
@@ -47,6 +47,7 @@ This LMS integrates AI to provide:
 * AI Study Planner (daily structured schedules)
 * AI Teacher (chat-based concept explanation)
 * AI Notes Generator (structured notes with headings & bullets)
+* AI Quiz Generator (MCQs with scoring & answer validation)
 
 ---
 
@@ -106,6 +107,7 @@ npm start
 * Day 15: AI Study Planner
 * Day 16: AI Teacher (chat system)
 * Day 17: AI Notes Generator
+* Day 18: AI Quiz Generator (MCQs + scoring system)
 
 ---
 
@@ -115,6 +117,7 @@ npm start
 * Add AI quiz generator
 * Add analytics dashboard
 * Deploy to cloud (Vercel / Render / MongoDB Atlas)
+* Improve quiz UI (highlight answers, timer, difficulty levels)
 
 ---
 

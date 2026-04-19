@@ -62,5 +62,33 @@ router.post("/notes", async (req, res) => {
     res.status(500).json({ error: "AI failed" });
   }
 });
+// AI QUIZ GENERATOR
+router.post("/quiz", async (req, res) => {
+  const { topic } = req.body;
+
+  try {
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content:
+            "Generate 5 MCQs in STRICT JSON format like: [{\"question\":\"\",\"options\":[\"\",\"\",\"\",\"\"],\"answer\":\"\"}]",
+        },
+        {
+          role: "user",
+          content: `Create quiz for: ${topic}`,
+        },
+      ],
+      model: "llama-3.1-8b-instant",
+    });
+
+    res.json({
+      quiz: completion.choices[0].message.content,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "AI failed" });
+  }
+});
 
 module.exports = router;
