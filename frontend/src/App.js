@@ -8,11 +8,13 @@ import StudyPlanner from "./pages/StudyPlanner";
 import AITeacher from "./pages/AITeacher";
 import NotesGenerator from "./pages/NotesGenerator";
 import QuizGenerator from "./pages/QuizGenerator";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <Router>
       <h1>AI LMS 🚀</h1>
+      <Navbar />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

@@ -32,37 +32,54 @@ function Dashboard() {
       // Refresh my courses
       const res = await API.get(`/courses/my-courses/${userId}`);
       setMyCourses(res.data);
-
     } catch (err) {
       console.error(err);
     }
   };
 
+  // ✅ THIS IS THE MAIN RETURN UI (UPDATED)
   return (
-    <div>
-      <h2>Dashboard</h2>
+    <div className="container mt-4">
+      <h2 className="mb-4">Dashboard</h2>
 
+      {/* ALL COURSES */}
       <h3>📚 All Courses</h3>
-      {courses.map((course) => (
-        <div key={course._id}>
-          <h4 onClick={() => navigate(`/course/${course._id}`)}>
-  {course.title}
-</h4>
-          <p>{course.description}</p>
+      <div className="row">
+        {courses.map((course) => (
+          <div className="col-md-4" key={course._id}>
+            <div className="card p-3 mb-3 shadow-sm">
+              <h5
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(`/course/${course._id}`)}
+              >
+                {course.title}
+              </h5>
 
-          <button onClick={() => handleEnroll(course._id)}>
-            Enroll
-          </button>
-        </div>
-      ))}
+              <p>{course.description}</p>
 
-      <h3>🎯 My Courses</h3>
-      {myCourses.map((course) => (
-        <div key={course._id}>
-          <h4>{course.title}</h4>
-          <p>{course.description}</p>
-        </div>
-      ))}
+              <button
+                className="btn btn-primary"
+                onClick={() => handleEnroll(course._id)}
+              >
+                Enroll
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* MY COURSES */}
+      <h3 className="mt-5">🎯 My Courses</h3>
+      <div className="row">
+        {myCourses.map((course) => (
+          <div className="col-md-4" key={course._id}>
+            <div className="card p-3 mb-3 shadow-sm bg-light">
+              <h5>{course.title}</h5>
+              <p>{course.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -23,12 +23,10 @@ This LMS integrates AI to provide:
 
 ## 🔧 Tech Stack
 
-* Node.js
-* Express.js
-* MongoDB
-* React.js
-* Groq API (LLM integration — llama-3.1-8b-instant)
-
+* Frontend: React.js, Bootstrap
+* Backend: Node.js, Express.js
+* Database: MongoDB
+* AI Integration: Groq API (llama-3.1-8b-instant)
 ---
 
 ## ✨ Key Features
@@ -48,6 +46,9 @@ This LMS integrates AI to provide:
 * AI Teacher (chat-based concept explanation)
 * AI Notes Generator (structured notes with headings & bullets)
 * AI Quiz Generator (MCQs with scoring & answer validation)
+* Clean and responsive UI with Bootstrap
+* Navigation bar for better user experience
+* Secure login flow with token-based authentication
 
 ---
 
@@ -108,6 +109,7 @@ npm start
 * Day 16: AI Teacher (chat system)
 * Day 17: AI Notes Generator
 * Day 18: AI Quiz Generator (MCQs + scoring system)
+* Day 19: UI improvements with Bootstrap, Navbar, and authentication flow enhancement
 
 ---
 
