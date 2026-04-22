@@ -1,37 +1,49 @@
 require("dotenv").config();
+
 const express = require("express");
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
 const cors = require("cors");
+
+const connectDB = require("./config/db");
+
 // ROUTES
 const authRoutes = require("./routes/auth");
 const courseRoutes = require("./routes/course");
 const progressRoutes = require("./routes/progress");
-const errorHandler = require("./middleware/errorHandler");
 const aiRoutes = require("./routes/ai");
-
-
-connectDB();
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
-app.use(cors());
 
-// MIDDLEWARE
+// ✅ CONNECT DB
+connectDB();
+
+// ✅ MIDDLEWARE
 app.use(express.json());
 
-// ROUTES
+// ✅ CORS (important for frontend later)
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
+// ✅ ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/progress", progressRoutes);
-app.use(errorHandler);
 app.use("/api/ai", aiRoutes);
 
-// TEST ROUTE
+// ✅ TEST ROUTE
 app.get("/", (req, res) => {
   res.send("LMS Backend Running 🚀");
 });
 
-const PORT = 5000;
+// ✅ ERROR HANDLER (must be LAST)
+app.use(errorHandler);
+
+// ✅ IMPORTANT: DYNAMIC PORT
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
