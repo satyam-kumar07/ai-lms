@@ -6,18 +6,21 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { body, validationResult } = require("express-validator");
 
-// CREATE COURSE (ADMIN ONLY)
+
+// ================= CREATE COURSE =================/
 router.post(
   "/",
-  auth,
-  admin,
+  auth, 
+
   [
     body("title").notEmpty().withMessage("Title required"),
     body("description").notEmpty().withMessage("Description required"),
   ],
+
   async (req, res) => {
     try {
       const errors = validationResult(req);
+
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
@@ -30,16 +33,21 @@ router.post(
         instructor,
       });
 
-      res.status(201).json(course);
+      res.status(201).json({
+        message: "Course created successfully",
+        course,
+      });
+
     } catch (err) {
-      console.error(err);
+      console.error("CREATE COURSE ERROR:", err);
       res.status(500).json({ error: "Failed to create course" });
     }
   }
 );
 
-// ADD MODULE (ADMIN ONLY)
-router.post("/add-module/:courseId", auth, admin, async (req, res) => {
+
+// ================= ADD MODULE =================
+router.post("/add-module/:courseId", auth, async (req, res) => {
   try {
     const { title } = req.body;
 
@@ -50,16 +58,23 @@ router.post("/add-module/:courseId", auth, admin, async (req, res) => {
     }
 
     course.modules.push({ title, lessons: [] });
+
     await course.save();
 
-    res.json(course);
+    res.json({
+      message: "Module added",
+      course,
+    });
+
   } catch (err) {
+    console.error("ADD MODULE ERROR:", err);
     res.status(500).json({ error: "Failed to add module" });
   }
 });
 
-// ADD LESSON (ADMIN ONLY)
-router.post("/add-lesson/:courseId/:moduleIndex", auth, admin, async (req, res) => {
+
+// ================= ADD LESSON =================
+router.post("/add-lesson/:courseId/:moduleIndex", auth, async (req, res) => {
   try {
     const { title, content } = req.body;
 
@@ -76,25 +91,36 @@ router.post("/add-lesson/:courseId/:moduleIndex", auth, admin, async (req, res) 
     }
 
     module.lessons.push({ title, content });
+
     await course.save();
 
-    res.json(course);
+    res.json({
+      message: "Lesson added",
+      course,
+    });
+
   } catch (err) {
+    console.error("ADD LESSON ERROR:", err);
     res.status(500).json({ error: "Failed to add lesson" });
   }
 });
 
-// GET ALL COURSES
+
+// ================= GET ALL COURSES =================
 router.get("/", async (req, res) => {
   try {
     const courses = await Course.find().populate("students", "-password");
+
     res.json(courses);
+
   } catch (err) {
+    console.error("GET COURSES ERROR:", err);
     res.status(500).json({ error: "Failed to fetch courses" });
   }
 });
 
-// ENROLL IN COURSE
+
+// ================= ENROLL =================
 router.post("/enroll/:courseId/:userId", async (req, res) => {
   try {
     const { courseId, userId } = req.params;
@@ -119,12 +145,15 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
     }
 
     res.json({ message: "Enrolled successfully" });
-  } catch (error) {
+
+  } catch (err) {
+    console.error("ENROLL ERROR:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// GET USER ENROLLED COURSES
+
+// ================= USER COURSES =================
 router.get("/my-courses/:userId", async (req, res) => {
   try {
     const courses = await Course.find({
@@ -132,7 +161,9 @@ router.get("/my-courses/:userId", async (req, res) => {
     });
 
     res.json(courses);
+
   } catch (err) {
+    console.error("MY COURSES ERROR:", err);
     res.status(500).json({ error: "Failed to fetch user courses" });
   }
 });
