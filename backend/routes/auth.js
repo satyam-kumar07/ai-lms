@@ -9,7 +9,6 @@ const { body, validationResult } = require("express-validator");
 // ================= REGISTER =================
 router.post(
   "/register",
-
   [
     body("name").notEmpty().withMessage("Name required"),
     body("email").isEmail().withMessage("Valid email required"),
@@ -28,8 +27,16 @@ router.post(
     const { name, email, password, role } = req.body;
 
     try {
+      // ✅ Check if user already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ error: "User already exists" });
+      }
+
+      // ✅ Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // ✅ Create user
       const user = await User.create({
         name,
         email,
@@ -37,10 +44,14 @@ router.post(
         role: role || "student",
       });
 
-      res.json(user);
+      // 🔐 REMOVE PASSWORD FROM RESPONSE
+      const { password: pwd, ...userData } = user._doc;
+
+      res.status(201).json(userData);
 
     } catch (err) {
-      res.status(400).json({ error: "User already exists" });
+      console.error(err);
+      res.status(500).json({ error: "Server error" });
     }
   }
 );
@@ -51,27 +62,35 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find user
+    // ✅ Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     }
 
-    // Compare password
+    // ✅ Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    // Generate token
+    // ✅ Generate token
     const token = jwt.sign(
-      { id: user._id },
+      { id: user._id, role: user.role }, // include role 👑
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
-    res.json({ token,userId: user._id });
+    // 🔐 REMOVE PASSWORD FROM RESPONSE
+    const { password: pwd, ...userData } = user._doc;
+
+    res.json({
+      token,
+      user: userData,
+    });
+
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 });
