@@ -16,7 +16,7 @@ function QuizGenerator() {
       const cleanText = res.data.quiz
         .replace(/```json/g, "")
         .replace(/```/g, "")
-        .replace(/^[^[]*/, ""); // ✅ FIXED HERE
+        .replace(/^[^[]*/, "");
 
       const parsed = JSON.parse(cleanText);
 
@@ -74,6 +74,7 @@ function QuizGenerator() {
                 <input
                   type="radio"
                   name={`q-${i}`}
+                  checked={isSelected}   
                   onChange={() => handleSelect(i, opt)}
                 />
 
@@ -87,7 +88,9 @@ function QuizGenerator() {
                           ? "red"
                           : "black"
                         : "black",
-                    fontWeight: isCorrect ? "bold" : "normal",
+
+                    fontWeight:
+                      score !== null && isCorrect ? "bold" : "normal",
                   }}
                 >
                   {opt}
@@ -99,7 +102,7 @@ function QuizGenerator() {
       ))}
 
       {/* SUBMIT */}
-      {quiz.length > 0 && (
+      {quiz.length > 0 && score === null && (
         <button
           onClick={submitQuiz}
           style={{ marginTop: "20px" }}
