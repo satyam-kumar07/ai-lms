@@ -10,34 +10,46 @@ function Dashboard() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  const authHeader = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   useEffect(() => {
     // All courses
-    API.get("/courses", {
-      headers: { Authorization: token },
-    })
+    API.get("/courses", authHeader)
       .then((res) => setCourses(res.data))
       .catch((err) => console.error(err));
 
     // My courses
-    API.get(`/courses/my-courses/${userId}`)
+    API.get(`/courses/my-courses/${userId}`, authHeader)
       .then((res) => setMyCourses(res.data))
       .catch((err) => console.error(err));
   }, [token, userId]);
 
   const handleEnroll = async (courseId) => {
     try {
-      await API.post(`/courses/enroll/${courseId}/${userId}`);
+      await API.post(
+        `/courses/enroll/${courseId}/${userId}`,
+        {},
+        authHeader 
+      );
+
       alert("Enrolled successfully 🚀");
 
       // Refresh my courses
-      const res = await API.get(`/courses/my-courses/${userId}`);
+      const res = await API.get(
+        `/courses/my-courses/${userId}`,
+        authHeader
+      );
       setMyCourses(res.data);
     } catch (err) {
       console.error(err);
+      alert("Enroll failed ❌");
     }
   };
 
-  // ✅ THIS IS THE MAIN RETURN UI (UPDATED)
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Dashboard</h2>
