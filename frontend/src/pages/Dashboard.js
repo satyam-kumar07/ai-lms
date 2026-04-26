@@ -7,43 +7,38 @@ function Dashboard() {
   const [myCourses, setMyCourses] = useState([]);
 
   const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const authHeader = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  // ✅ Fetch My Courses (Reusable)
+  const fetchMyCourses = async () => {
+    try {
+      const res = await API.get(`/courses/my-courses/${userId}`);
+      setMyCourses(res.data);
+    } catch (err) {
+      console.error("Error fetching my courses:", err);
+    }
   };
 
   useEffect(() => {
-    // All courses
-    API.get("/courses", authHeader)
+    // ✅ Get all courses
+    API.get("/courses")
       .then((res) => setCourses(res.data))
       .catch((err) => console.error(err));
 
-    // My courses
-    API.get(`/courses/my-courses/${userId}`, authHeader)
-      .then((res) => setMyCourses(res.data))
-      .catch((err) => console.error(err));
-  }, [token, userId]);
+    // ✅ Get my courses
+    fetchMyCourses();
+  }, [userId]);
 
+  // ✅ Enroll function (clean)
   const handleEnroll = async (courseId) => {
     try {
-      await API.post(
-        `/courses/enroll/${courseId}/${userId}`,
-        {},
-        authHeader 
-      );
+      await API.post(`/courses/enroll/${courseId}/${userId}`);
 
       alert("Enrolled successfully 🚀");
 
-      // Refresh my courses
-      const res = await API.get(
-        `/courses/my-courses/${userId}`,
-        authHeader
-      );
-      setMyCourses(res.data);
+      // ✅ Refresh after enroll
+      await fetchMyCourses();
+
     } catch (err) {
       console.error(err);
       alert("Enroll failed ❌");
@@ -83,14 +78,18 @@ function Dashboard() {
       {/* MY COURSES */}
       <h3 className="mt-5">🎯 My Courses</h3>
       <div className="row">
-        {myCourses.map((course) => (
-          <div className="col-md-4" key={course._id}>
-            <div className="card p-3 mb-3 shadow-sm bg-light">
-              <h5>{course.title}</h5>
-              <p>{course.description}</p>
+        {myCourses.length === 0 ? (
+          <p>No enrolled courses yet.</p>
+        ) : (
+          myCourses.map((course) => (
+            <div className="col-md-4" key={course._id}>
+              <div className="card p-3 mb-3 shadow-sm bg-light">
+                <h5>{course.title}</h5>
+                <p>{course.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
