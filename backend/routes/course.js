@@ -121,17 +121,11 @@ router.get("/", async (req, res) => {
 
 
 // ================= ENROLL =================
+const mongoose = require("mongoose");
+
 router.post("/enroll/:courseId/:userId", async (req, res) => {
   try {
     const { courseId, userId } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(courseId)) {
-      return res.status(400).json({ error: "Invalid Course ID" });
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return res.status(400).json({ error: "Invalid User ID" });
-    }
 
     const course = await Course.findById(courseId);
 
@@ -139,16 +133,18 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
       return res.status(404).json({ error: "Course not found" });
     }
 
-    if (!course.students.includes(userId)) {
-      course.students.push(userId);
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    if (!course.students.includes(userObjectId)) {
+      course.students.push(userObjectId);
       await course.save();
     }
 
     res.json({ message: "Enrolled successfully" });
 
   } catch (err) {
-    console.error("ENROLL ERROR:", err);
-    res.status(500).json({ error: "Server error" });
+    console.error(err);
+    res.status(500).json({ error: "Enroll failed" });
   }
 });
 

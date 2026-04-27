@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
 
@@ -10,14 +10,14 @@ function Dashboard() {
   const navigate = useNavigate();
 
   // ✅ Fetch My Courses (Reusable)
-  const fetchMyCourses = async () => {
-    try {
-      const res = await API.get(`/courses/my-courses/${userId}`);
-      setMyCourses(res.data);
-    } catch (err) {
-      console.error("Error fetching my courses:", err);
-    }
-  };
+  const fetchMyCourses = useCallback(async () => {
+  try {
+    const res = await API.get(`/courses/my-courses/${userId}`);
+    setMyCourses(res.data);
+  } catch (err) {
+    console.error("Error fetching my courses:", err);
+  }
+}, [userId]);
 
   useEffect(() => {
     // ✅ Get all courses
@@ -27,7 +27,7 @@ function Dashboard() {
 
     // ✅ Get my courses
     fetchMyCourses();
-  }, [userId]);
+  }, [fetchMyCourses]);
 
   // ✅ Enroll function (clean)
   const handleEnroll = async (courseId) => {
