@@ -6,22 +6,41 @@ function Dashboard() {
   const [courses, setCourses] = useState([]);
   const [myCourses, setMyCourses] = useState([]);
 
-  const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
-  // ✅ Fetch My Courses (Reusable)
+  // ✅ SAFE userId + token extraction
+  const token = localStorage.getItem("token");
+
+  const userId =
+    localStorage.getItem("userId") ||
+    JSON.parse(localStorage.getItem("user") || "{}")?._id ||
+    JSON.parse(localStorage.getItem("user") || "{}")?.id;
+
+  // ✅ Auth header
+  const authHeader = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  // ✅ Fetch My Courses
   const fetchMyCourses = useCallback(async () => {
-  try {
-    const res = await API.get(`/courses/my-courses/${userId}`);
-    setMyCourses(res.data);
-  } catch (err) {
-    console.error("Error fetching my courses:", err);
-  }
-}, [userId]);
+    if (!userId) return; 
+
+    try {
+      const res = await API.get(
+        `/courses/my-courses/${userId}`,
+        authHeader
+      );
+      setMyCourses(res.data);
+    } catch (err) {
+      console.error("Error fetching my courses:", err);
+    }
+  }, [userId, token]);
 
   useEffect(() => {
     // ✅ Get all courses
-    API.get("/courses")
+    API.get("/courses", authHeader)
       .then((res) => setCourses(res.data))
       .catch((err) => console.error(err));
 
@@ -29,18 +48,26 @@ function Dashboard() {
     fetchMyCourses();
   }, [fetchMyCourses]);
 
-  // ✅ Enroll function (clean)
+  // ✅ Enroll function
   const handleEnroll = async (courseId) => {
+    if (!userId) {
+      alert("User not logged in ❌");
+      return;
+    }
+
     try {
-      await API.post(`/courses/enroll/${courseId}/${userId}`);
+      await API.post(
+        `/courses/enroll/${courseId}/${userId}`,
+        {},
+        authHeader
+      );
 
       alert("Enrolled successfully 🚀");
 
-      // ✅ Refresh after enroll
+      // Refresh
       await fetchMyCourses();
-
     } catch (err) {
-      console.error(err);
+      console.error("Enroll error:", err.response?.data || err.message);
       alert("Enroll failed ❌");
     }
   };
