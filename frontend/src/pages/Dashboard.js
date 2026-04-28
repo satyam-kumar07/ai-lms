@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
@@ -9,7 +8,7 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  // ✅ SAFE userId + token extraction
+  // ✅ Get token & userId safely
   const token = localStorage.getItem("token");
 
   const userId =
@@ -17,36 +16,39 @@ function Dashboard() {
     JSON.parse(localStorage.getItem("user") || "{}")?._id ||
     JSON.parse(localStorage.getItem("user") || "{}")?.id;
 
-  // ✅ Auth header
-  const authHeader = useMemo(() => ({
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-}), [token]);
-
   // ✅ Fetch My Courses
   const fetchMyCourses = useCallback(async () => {
-    if (!userId) return; 
+    if (!userId) return;
 
     try {
       const res = await API.get(
         `/courses/my-courses/${userId}`,
-        authHeader
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setMyCourses(res.data);
     } catch (err) {
       console.error("Error fetching my courses:", err);
     }
- }, [userId, authHeader]);
+  }, [userId, token]);
+
+  // ✅ Load data
   useEffect(() => {
-    // ✅ Get all courses
-    API.get("/courses", authHeader)
+    // Get all courses
+    API.get("/courses", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => setCourses(res.data))
       .catch((err) => console.error(err));
 
-    // ✅ Get my courses
+    // Get my courses
     fetchMyCourses();
-  }, [fetchMyCourses, authHeader]);
+  }, [fetchMyCourses, token]);
 
   // ✅ Enroll function
   const handleEnroll = async (courseId) => {
@@ -59,12 +61,16 @@ function Dashboard() {
       await API.post(
         `/courses/enroll/${courseId}/${userId}`,
         {},
-        authHeader
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       alert("Enrolled successfully 🚀");
 
-      // Refresh
+      // Refresh courses
       await fetchMyCourses();
     } catch (err) {
       console.error("Enroll error:", err.response?.data || err.message);
