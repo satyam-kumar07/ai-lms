@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
@@ -17,11 +18,11 @@ function Dashboard() {
     JSON.parse(localStorage.getItem("user") || "{}")?.id;
 
   // ✅ Auth header
-  const authHeader = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+  const authHeader = useMemo(() => ({
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+}), [token]);
 
   // ✅ Fetch My Courses
   const fetchMyCourses = useCallback(async () => {
@@ -36,8 +37,7 @@ function Dashboard() {
     } catch (err) {
       console.error("Error fetching my courses:", err);
     }
-  }, [userId, token]);
-
+ }, [userId, authHeader]);
   useEffect(() => {
     // ✅ Get all courses
     API.get("/courses", authHeader)
@@ -46,7 +46,7 @@ function Dashboard() {
 
     // ✅ Get my courses
     fetchMyCourses();
-  }, [fetchMyCourses]);
+  }, [fetchMyCourses, authHeader]);
 
   // ✅ Enroll function
   const handleEnroll = async (courseId) => {
