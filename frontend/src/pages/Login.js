@@ -32,24 +32,32 @@ function Login() {
 
       const res = await API.post("/auth/login", form);
 
-      console.log("LOGIN RESPONSE:", res.data); // 🔍 DEBUG
+      console.log("LOGIN RESPONSE:", res.data); // debug
 
+      // ✅ HANDLE ALL BACKEND RESPONSE FORMATS
       const token = res.data.token;
       const userId =
-        res.data.userId || res.data.user?._id || res.data.user?.id;
+        res.data.userId ||
+        res.data.user?._id ||
+        res.data.user?.id;
 
       if (!token || !userId) {
-        alert("Login response missing data ❌");
+        alert("Login response missing token/userId ❌");
         return;
       }
 
-      // ✅ SAVE CORRECTLY
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
+
+      console.log("Saved userId:", userId); 
 
       alert("Login successful 🚀");
 
       navigate("/dashboard");
+
     } catch (err) {
       console.error("LOGIN ERROR:", err.response?.data || err.message);
       alert(err.response?.data?.error || "Login failed ❌");

@@ -130,7 +130,6 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
 
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
-    // ✅ FIX: Proper ObjectId comparison
     const alreadyEnrolled = course.students.some(
       (student) => student.toString() === userId
     );
