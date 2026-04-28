@@ -3,20 +3,17 @@ const router = express.Router();
 const Course = require("../models/Course");
 const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
-const admin = require("../middleware/admin");
 const { body, validationResult } = require("express-validator");
 
 
-// ================= CREATE COURSE =================/
+// ================= CREATE COURSE =================
 router.post(
   "/",
-  auth, 
-
+  auth,
   [
     body("title").notEmpty().withMessage("Title required"),
     body("description").notEmpty().withMessage("Description required"),
   ],
-
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -121,8 +118,6 @@ router.get("/", async (req, res) => {
 
 
 // ================= ENROLL =================
-const mongoose = require("mongoose");
-
 router.post("/enroll/:courseId/:userId", async (req, res) => {
   try {
     const { courseId, userId } = req.params;
@@ -135,7 +130,12 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
 
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
-    if (!course.students.includes(userObjectId)) {
+    // ✅ FIX: Proper ObjectId comparison
+    const alreadyEnrolled = course.students.some(
+      (student) => student.toString() === userId
+    );
+
+    if (!alreadyEnrolled) {
       course.students.push(userObjectId);
       await course.save();
     }
@@ -143,7 +143,7 @@ router.post("/enroll/:courseId/:userId", async (req, res) => {
     res.json({ message: "Enrolled successfully" });
 
   } catch (err) {
-    console.error(err);
+    console.error("ENROLL ERROR:", err);
     res.status(500).json({ error: "Enroll failed" });
   }
 });
