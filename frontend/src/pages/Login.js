@@ -10,6 +10,8 @@ function Login() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -20,16 +22,39 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!form.email || !form.password) {
+      alert("Please fill all fields ❌");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const res = await API.post("/auth/login", form);
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userId", res.data.userId);
+      console.log("LOGIN RESPONSE:", res.data); // 🔍 DEBUG
+
+      const token = res.data.token;
+      const userId =
+        res.data.userId || res.data.user?._id || res.data.user?.id;
+
+      if (!token || !userId) {
+        alert("Login response missing data ❌");
+        return;
+      }
+
+      // ✅ SAVE CORRECTLY
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+
+      alert("Login successful 🚀");
 
       navigate("/dashboard");
     } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert("Login failed ❌");
+      console.error("LOGIN ERROR:", err.response?.data || err.message);
+      alert(err.response?.data?.error || "Login failed ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,7 +63,6 @@ function Login() {
       className="d-flex justify-content-center align-items-center"
       style={{ height: "80vh" }}
     >
-      {/* ✅ FIX: KEEP EVERYTHING INSIDE THIS DIV */}
       <div style={{ width: "400px" }}>
         <h2 className="mb-4 text-center">Login</h2>
 
@@ -61,12 +85,14 @@ function Login() {
             onChange={handleChange}
           />
 
-          <button className="btn btn-success w-100">
-            Login
+          <button
+            className="btn btn-success w-100"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        {/* OPTIONAL: REGISTER LINK */}
         <p className="text-center mt-3">
           Don’t have an account?{" "}
           <span
