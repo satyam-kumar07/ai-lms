@@ -1,49 +1,29 @@
-require("dotenv").config();
-
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
-
-const connectDB = require("./config/db");
-
-// ROUTES
-const authRoutes = require("./routes/auth");
-const courseRoutes = require("./routes/course");
-const progressRoutes = require("./routes/progress");
-const aiRoutes = require("./routes/ai");
-const errorHandler = require("./middleware/errorHandler");
+require("dotenv").config();
 
 const app = express();
 
-// ✅ CONNECT DB
-connectDB();
-
-// ✅ MIDDLEWARE
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-// ✅ CORS (important for frontend later)
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+// Routes
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/courses", require("./routes/course"));
 
-// ✅ ROUTES
-app.use("/api/auth", authRoutes);
-app.use("/api/courses", courseRoutes);
-app.use("/api/progress", progressRoutes);
-app.use("/api/ai", aiRoutes);
+// DB CONNECT
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected ✅"))
+  .catch(err => {
+    console.error("Mongo Error ❌", err);
+    process.exit(1);
+  });
 
-// ✅ TEST ROUTE
-app.get("/", (req, res) => {
-  res.send("LMS Backend Running 🚀");
-});
-
-// ✅ ERROR HANDLER (must be LAST)
-app.use(errorHandler);
-
-// ✅ IMPORTANT: DYNAMIC PORT
+// PORT
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} 🚀`);
 });
