@@ -8,9 +8,9 @@ function StudyPlanner() {
   const [plan, setPlan] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const userId = localStorage.getItem("userId");
-
   const generatePlan = async () => {
+    const userId = localStorage.getItem("userId"); // ✅ FIX: move inside
+
     if (!subjects || !hours) {
       alert("Please fill all fields ⚠️");
       return;
@@ -23,18 +23,31 @@ function StudyPlanner() {
 
     try {
       setLoading(true);
-      setPlan(""); // clear previous plan
+      setPlan("");
+
+      console.log("Sending payload:", {
+        userId,
+        subjects,
+        hours,
+      }); 
 
       const res = await API.post("/ai/study-plan", {
         userId,
         subjects,
-        hours: Number(hours), // ✅ FIX: ensure number
+        hours: Number(hours),
       });
 
-      setPlan(res.data.plan);
+      console.log("PLAN RESPONSE:", res.data); 
+
+      setPlan(res.data.plan || "No plan generated");
+
     } catch (err) {
-      console.error(err);
-      alert("Failed to generate plan ❌");
+      console.error("PLANNER ERROR:", err.response?.data || err.message);
+
+      alert(
+        err.response?.data?.error ||
+        "Failed to generate plan ❌"
+      );
     } finally {
       setLoading(false);
     }
@@ -49,12 +62,11 @@ function StudyPlanner() {
         fontFamily: "Arial",
       }}
     >
-      {/* TITLE */}
       <h2 style={{ marginBottom: "20px", textAlign: "center" }}>
         AI Study Planner 📅
       </h2>
 
-      {/* INPUTS */}
+      {/* SUBJECT INPUT */}
       <input
         placeholder="Enter subjects (e.g. AI, DSA)"
         value={subjects}
@@ -71,6 +83,7 @@ function StudyPlanner() {
         }}
       />
 
+      {/* HOURS INPUT */}
       <input
         type="number"
         placeholder="Hours per day"
@@ -100,84 +113,49 @@ function StudyPlanner() {
           borderRadius: "6px",
           cursor: "pointer",
           width: "100%",
-          transition: "0.2s ease",
         }}
       >
         {loading ? "Generating..." : "Generate Plan"}
       </button>
 
-      {/* EMPTY STATE */}
+      {/* EMPTY */}
       {!plan && !loading && (
         <p style={{ marginTop: "20px", color: "#777", textAlign: "center" }}>
-          Enter subjects and hours to generate your personalized study plan 📚
+          Enter subjects and hours to generate your study plan 📚
         </p>
       )}
 
-      {/* OUTPUT */}
+      {/* RESULT */}
       {plan && (
         <div
           style={{
             marginTop: "25px",
-            background: "#ffffff",
+            background: "#fff",
             padding: "25px",
             borderRadius: "12px",
             border: "1px solid #e0e0e0",
             boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
             lineHeight: "1.8",
-            transition: "all 0.3s ease",
           }}
         >
-          <h3 style={{ marginBottom: "10px" }}>
-            📌 Your Personalized Plan
-          </h3>
+          <h3>📌 Your Personalized Plan</h3>
+          <hr />
 
-          <hr style={{ margin: "10px 0", borderColor: "#eee" }} />
-
-          <div style={{ color: "#444", fontSize: "15px" }}>
-            <ReactMarkdown
-  components={{
-    h1: ({ children }) => (
-      <h3 style={{ marginTop: "20px", color: "#2c3e50" }}>
-        {children}
-      </h3>
-    ),
-
-    h2: ({ children }) => (
-      <h4
-        style={{
-          marginTop: "20px",
-          background: "#f1f5f9",
-          padding: "8px 12px",
-          borderRadius: "6px",
-          color: "#1e293b",
-        }}
-      >
-        {children}
-      </h4>
-    ),
-
-    p: ({ children }) => (
-      <p style={{ marginBottom: "12px" }}>
-        {children}
-      </p>
-    ),
-
-    li: ({ children }) => (
-      <li style={{ marginBottom: "8px" }}>
-        {children}
-      </li>
-    ),
-
-    strong: ({ children }) => (
-      <strong style={{ color: "#16a34a" }}>
-        {children}
-      </strong>
-    ),
-  }}
->
-  {plan}
-</ReactMarkdown>
-          </div>
+          <ReactMarkdown
+            components={{
+              h1: ({ children }) => <h3>{children}</h3>,
+              h2: ({ children }) => <h4>{children}</h4>,
+              p: ({ children }) => <p>{children}</p>,
+              li: ({ children }) => <li>{children}</li>,
+              strong: ({ children }) => (
+                <strong style={{ color: "#16a34a" }}>
+                  {children}
+                </strong>
+              ),
+            }}
+          >
+            {plan}
+          </ReactMarkdown>
         </div>
       )}
     </div>

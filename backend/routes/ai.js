@@ -115,56 +115,64 @@ router.post("/quiz", async (req, res) => {
 
 // ================= STUDY PLANNER =================
 router.post("/study-plan", async (req, res) => {
-  const { userId, subjects, hours } = req.body;
-
-  // ✅ VALIDATION
-  if (!userId || !subjects || !hours) {
-    return res.status(400).json({ error: "All fields required" });
-  }
-
-  // ✅ VALID OBJECT ID CHECK
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).json({ error: "Invalid userId" });
-  }
-
   try {
+    const { userId, subjects, hours } = req.body;
+
+    // ✅ VALIDATION
+    if (!userId || !subjects || !hours) {
+      return res.status(400).json({ error: "All fields required" });
+    }
+
+    // ✅ OBJECT ID CHECK
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: "Invalid userId" });
+    }
+
+    // ✅ FETCH USER PROGRESS
     const progressData = await Progress.find({ user: userId }).populate("course");
 
-    // ✅ HANDLE EMPTY OR BROKEN DATA
     let summary = "No progress data available";
 
     if (progressData.length > 0) {
       summary = progressData
-        .filter(p => p.course) // remove broken references
-        .map((p) => {
+        .filter(p => p.course)
+        .map(p => {
           const title = p.course?.title || "Unknown Course";
-          return `${title}: ${p.progress}% completed`;
+          return `${title}: ${p.progress || 0}% completed`;
         })
         .join(", ");
     }
 
+    // ✅ CALL GROQ SAFELY
     const completion = await groq.chat.completions.create({
       messages: [
         {
           role: "system",
           content:
-            "You are an AI study planner. Analyze user progress and create a personalized study plan with priorities, weak areas, and time allocation.",
+            "You are an AI study planner. Create a clear, structured plan with daily schedule, priorities, and weak areas."
         },
         {
           role: "user",
-          content: `Subjects: ${subjects}, Hours: ${hours}, Progress: ${summary}`,
-        },
+          content: `Subjects: ${subjects}, Hours per day: ${hours}, Progress: ${summary}`
+        }
       ],
       model: "llama-3.1-8b-instant",
     });
 
-    res.json({
-      plan: completion.choices[0].message.content,
-    });
+    // ✅ SAFE RESPONSE HANDLING
+    const plan =
+      completion?.choices?.[0]?.message?.content ||
+      "No plan generated";
+
+    res.json({ plan });
 
   } catch (err) {
-    console.error("STUDY PLAN ERROR:", err.message);
-    res.status(500).json({ error: "AI failed" });
+    console.error("STUDY PLAN ERROR:", err);
+
+    res.status(500).json({
+      error: "AI failed",
+      details: err.message
+    });
   }
 });
 
