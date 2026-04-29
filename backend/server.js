@@ -12,6 +12,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/courses", require("./routes/course"));
+app.use("/api/ai", require("./routes/ai"));
 
 // DB CONNECT
 mongoose.connect(process.env.MONGO_URI)
