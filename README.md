@@ -1,91 +1,151 @@
 # 🚀 AI LMS with AI Tutor
 
 Hi, I'm Satyam 👋
-I built a **full-stack AI-powered Learning Management System (LMS)** that delivers personalized learning experiences using modern AI.
+I built a **full-stack AI-powered Learning Management System (LMS)** using the MERN stack and AI integration to deliver personalized learning experiences.
 
 ---
 
-## 🧩 Problem
+# 🌐 Live Demo
 
-Students often lack:
+Frontend: [https://ai-lms-git-main-satyam-kumar07s-projects.vercel.app/](https://ai-lms-git-main-satyam-kumar07s-projects.vercel.app/)
 
-* Personalized study plans
-* Instant doubt resolution
-* Structured learning paths
+Backend API: [https://ai-lms-backend-m6q4.onrender.com](https://ai-lms-backend-m6q4.onrender.com)
 
 ---
 
-## 💡 Solution
+# 🧩 Problem
 
-This LMS integrates AI to provide:
+Traditional learning platforms often lack:
 
-* 📚 Smart study plans based on user progress
-* 🧠 AI-powered tutor for real-time explanations
+* Personalized study guidance
+* Instant doubt-solving support
+* Smart learning recommendations
+* Interactive AI-based assistance
+
+---
+
+# 💡 Solution
+
+This AI LMS provides:
+
+* 📚 Personalized AI-generated study plans
+* 🤖 AI-powered learning assistant
 * 📝 Structured notes generation
-* 🎯 Quiz-based practice system
+* 🎯 Quiz generation with scoring
+* 📈 Student enrollment & progress tracking
 
 ---
 
-## 🔧 Tech Stack
+# 🔧 Tech Stack
 
-**Frontend:** React.js, Bootstrap
-**Backend:** Node.js, Express.js
-**Database:** MongoDB
-**AI Integration:** Groq API (llama-3.1-8b-instant)
+## Frontend
 
----
+* React.js
+* Bootstrap
+* Axios
+* React Router DOM
 
-## ✨ Key Features
+## Backend
 
-* 🔐 User authentication & authorization (JWT-based)
-* 🛡️ Role-based access control (Admin / Student)
-* 📚 Course management system
-* 📈 Enrollment & progress tracking
-* 🧩 Modular course structure (modules & lessons)
-* 📊 Personalized dashboard
-* 🎨 Clean and responsive UI with Bootstrap
-* 🧭 Navigation bar for seamless user experience
+* Node.js
+* Express.js
+* JWT Authentication
+* Express Validator
 
----
+## Database
 
-## 🤖 AI Features
+* MongoDB Atlas
+* Mongoose
 
-* 📅 **Personalized AI Study Planner**
-  → Generates study plans based on user progress (smart prioritization)
+## AI Integration
 
-* 🤖 **AI Teacher**
-  → Chat-based concept explanations
-
-* 📝 **AI Notes Generator**
-  → Clean, structured notes with headings & bullet points
-
-* 🎯 **AI Quiz Generator**
-  → MCQs with scoring, answer validation, and feedback
+* Groq API
+* llama-3.1-8b-instant
 
 ---
 
-## 📁 Project Structure
+# ✨ Core Features
+
+## 🔐 Authentication System
+
+* User registration & login
+* JWT-based authentication
+* Protected routes
+
+## 📚 LMS Features
+
+* Course creation
+* Course enrollment
+* Student dashboard
+* Modular course structure
+* Lesson management
+
+## 📈 Personalized Learning
+
+* My Courses section
+* Progress-based study planning
+* Personalized dashboard experience
+
+## 🎨 UI/UX
+
+* Responsive Bootstrap UI
+* Navigation system
+* Clean dashboard layout
+* Mobile-friendly design
+
+---
+
+# 🤖 AI Features
+
+## 📅 AI Study Planner
+
+Generates personalized study plans based on:
+
+* Subjects
+* Study hours
+* User progress data
+
+## 🤖 AI Teacher
+
+AI-powered concept explanation assistant.
+
+## 📝 AI Notes Generator
+
+Creates clean and structured notes automatically.
+
+## 🎯 AI Quiz Generator
+
+Generates MCQs with:
+
+* Scoring
+* Answer validation
+* Feedback system
+
+---
+
+# 📁 Project Structure
 
 ```bash
 backend/
-  ├── config/
-  ├── middleware/
-  ├── models/
-  ├── routes/
-  └── server.js
+├── config/
+├── middleware/
+├── models/
+├── routes/
+└── server.js
 
 frontend/
-  ├── src/
-  ├── components/
-  ├── pages/
-  └── services/
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
 ```
 
 ---
 
-## 🚀 How to Run
+# 🚀 Installation & Setup
 
-### Backend
+## Backend Setup
 
 ```bash
 cd backend
@@ -93,7 +153,7 @@ npm install
 npm run dev
 ```
 
-### Frontend
+## Frontend Setup
 
 ```bash
 cd frontend
@@ -103,53 +163,236 @@ npm start
 
 ---
 
-## 📌 Current Status
+# ⚙️ Environment Variables
 
-* ✅ Backend: Production-ready
-* ✅ Frontend: Fully functional
+Create a `.env` file inside backend:
+
+```env
+MONGO_URI=your_mongodb_url
+JWT_SECRET=your_secret_key
+GROQ_API_KEY=your_groq_api_key
+```
+
+---
+
+# 📌 Current Status
+
+* ✅ Frontend deployed on Vercel
+* ✅ Backend deployed on Render
+* ✅ MongoDB Atlas connected
 * ✅ AI features integrated
-* 🚀 UI/UX significantly improved (Bootstrap + Navbar)
-* 🧠 Personalized AI system implemented
+* ✅ Course enrollment working
+* ✅ Personalized study planner working
+* ✅ Mobile support enabled
+* ✅ Responsive UI implemented
 
 ---
 
-## 📈 Development Timeline
+# 📈 27-Day Development Timeline
 
-* Day 1–3: Backend setup & authentication
-* Day 4–7: Core LMS features + validation
-* Day 8–14: Frontend + course system
-* Day 15: AI Study Planner (basic)
-* Day 16: AI Teacher (chat system)
-* Day 17: AI Notes Generator
-* Day 18: AI Quiz Generator (MCQs + scoring)
-* Day 19: UI improvements (Bootstrap + Navbar + Auth UX)
-* Day 20: Personalized AI Study Planner (based on user progress)
+## Week 1 — Backend Foundation
+
+### Day 1
+
+* Project initialization
+* Backend folder setup
+* Express server configuration
+
+### Day 2
+
+* MongoDB Atlas connection
+* Environment variables setup
+* Mongoose models creation
+
+### Day 3
+
+* User authentication APIs
+* JWT token implementation
+* Password hashing
+
+### Day 4
+
+* Middleware setup
+* Protected routes
+* Authorization logic
+
+### Day 5
+
+* Course model creation
+* Course CRUD APIs
+* API testing
+
+### Day 6
+
+* Lesson & module schema creation
+* Modular LMS architecture setup
+
+### Day 7
+
+* Validation using Express Validator
+* Backend cleanup & testing
 
 ---
 
-## 🌟 Future Improvements
+## Week 2 — Frontend + LMS Features
 
-* 💬 Chat-style UI for AI teacher
-* ⏱️ Quiz timer & difficulty levels
-* 📊 Analytics dashboard (learning insights)
-* 🌐 Deployment (Vercel + Render + MongoDB Atlas)
-* 📱 Mobile responsiveness enhancements
+### Day 8
+
+* React frontend setup
+* Routing configuration
+
+### Day 9
+
+* Login page UI
+* Register page UI
+
+### Day 10
+
+* JWT authentication integration
+* LocalStorage token management
+
+### Day 11
+
+* Dashboard UI creation
+* Fetching courses from backend
+
+### Day 12
+
+* Course details page
+* Dynamic navigation setup
+
+### Day 13
+
+* Enrollment system implementation
+* Student course tracking
+
+### Day 14
+
+* My Courses dashboard section
+* Frontend-backend synchronization
 
 ---
 
-## 🤝 Connect
+## Week 3 — AI Integration
 
-If you like this project, feel free to ⭐ the repo and connect with me!
+### Day 15
+
+* Groq API integration
+* AI Study Planner implementation
+
+### Day 16
+
+* AI Teacher feature
+* Real-time AI explanation system
+
+### Day 17
+
+* AI Notes Generator
+* Structured markdown note formatting
+
+### Day 18
+
+* AI Quiz Generator
+* MCQ scoring & validation system
+
+### Day 19
+
+* Progress tracking system
+* Personalized AI recommendations
+
+### Day 20
+
+* Study plan optimization
+* Dynamic AI prompt improvements
+
+### Day 21
+
+* AI feature debugging
+* Error handling improvements
 
 ---
 
-## 🧠 Project Highlight
+## Week 4 — Deployment & Improvements
+
+### Day 22
+
+* Frontend deployment on Vercel
+* Environment variable setup
+
+### Day 23
+
+* Backend deployment on Render
+* MongoDB Atlas production connection
+
+### Day 24
+
+* CORS fixes
+* API route debugging
+* Authentication fixes
+
+### Day 25
+
+* Enrollment bug fixes
+* Dashboard synchronization fixes
+* Production testing
+
+### Day 26
+
+* Planner API fixes
+* Responsive UI improvements
+* Mobile testing
+
+### Day 27
+
+* Final debugging
+* README documentation
+* Deployment protection fixes
+* Production-ready polishing
+
+---
+
+# 🌟 Future Improvements
+
+* 💬 Chat-style AI interface
+* 📊 Analytics dashboard
+* 📱 Enhanced mobile responsiveness
+* 🔔 Notifications system
+* 📧 Email verification system
+* ⏱️ Quiz timer & difficulty modes
+
+---
+
+# 🧠 Key Learnings
+
+This project helped me learn:
+
+* MERN stack development
+* REST API architecture
+* Authentication systems
+* AI integration in real-world apps
+* Deployment using Vercel & Render
+* MongoDB schema design
+* Frontend-backend integration
+* Production debugging workflow
+* Responsive UI development
+
+---
+
+# 🤝 Connect
+
+If you like this project, feel free to ⭐ the repository and connect with me!
+
+---
+
+# 🚀 Project Highlight
 
 This project demonstrates:
 
-* Full-stack development (MERN)
-* AI integration in real applications
+* Full-stack MERN development
+* AI-powered EdTech solutions
 * Personalized recommendation systems
-* Clean UI/UX design
+* Real-world deployment workflow
+* Scalable LMS architecture
+* AI integration into educational platforms
 
-👉 Built as a **real-world, scalable EdTech product concept**
+👉 Built as a real-world scalable EdTech product concept.
